@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { ProfileFormData } from '../lib/types';
@@ -9,7 +8,6 @@ import toast from 'react-hot-toast';
 
 export default function CreateProfile() {
     const navigate = useNavigate();
-    const [creating, setCreating] = useState(false);
 
     const initialData: ProfileFormData = {
         username: '',
@@ -26,8 +24,6 @@ export default function CreateProfile() {
     const handleCreate = async (formData?: ProfileFormData) => {
         if (!formData) return;
 
-        setCreating(true);
-
         try {
             // Check if username already exists
             const { data: existing } = await supabase
@@ -38,7 +34,6 @@ export default function CreateProfile() {
 
             if (existing) {
                 toast.error('Username already exists. Please choose a different one.');
-                setCreating(false);
                 return;
             }
 
@@ -57,7 +52,7 @@ export default function CreateProfile() {
                     social_links: formData.social_links.filter(
                         link => link.platform.trim() && link.url.trim()
                     ),
-                });
+                } as any);
 
             if (error) {
                 toast.error('Failed to create profile');
@@ -70,8 +65,6 @@ export default function CreateProfile() {
         } catch (err) {
             toast.error('An unexpected error occurred');
             console.error(err);
-        } finally {
-            setCreating(false);
         }
     };
 

@@ -20,6 +20,8 @@ export default function EditProfile() {
     }, [id]);
 
     const fetchProfile = async () => {
+        if (!id) return;
+
         try {
             const { data, error } = await supabase
                 .from('profiles')

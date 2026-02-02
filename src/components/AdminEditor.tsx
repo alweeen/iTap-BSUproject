@@ -8,7 +8,7 @@ import ThemeSelector from './ThemeSelector';
 interface AdminEditorProps {
     initialData: ProfileFormData;
     profileId: string;
-    onSave: (formData?: ProfileFormData) => void;
+    onSave: (formData?: ProfileFormData) => void | Promise<void>;
     isCreating?: boolean;
 }
 
@@ -62,11 +62,11 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
 
             if (isCreating) {
                 // For create mode, just pass the data to onSave
-                onSave({ ...formData, social_links: validSocialLinks });
+                await onSave({ ...formData, social_links: validSocialLinks });
             } else {
                 // For update mode, update the database
-                const { error } = await supabase
-                    .from('profiles')
+                const { error } = await (supabase
+                    .from('profiles') as any)
                     .update({
                         username: formData.username,
                         full_name: formData.full_name,

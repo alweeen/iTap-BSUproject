@@ -20,6 +20,7 @@ export interface Database {
                     relationship_status: string | null
                     email: string | null
                     social_links: Json
+                    theme_id: string | null
                     created_at: string
                     updated_at: string
                 }
@@ -33,6 +34,7 @@ export interface Database {
                     relationship_status?: string | null
                     email?: string | null
                     social_links?: Json
+                    theme_id?: string | null
                     created_at?: string
                     updated_at?: string
                 }
@@ -46,6 +48,7 @@ export interface Database {
                     relationship_status?: string | null
                     email?: string | null
                     social_links?: Json
+                    theme_id?: string | null
                     created_at?: string
                     updated_at?: string
                 }
