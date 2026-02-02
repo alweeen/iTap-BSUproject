@@ -1,0 +1,6 @@
+supabase_database_pass = "sxZlzJaS62fSgeog"
+supabase_project_url = "https://lzbuafknivkmmeozzesh.supabase.co"
+supabase_anon_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6YnVhZmtuaXZrbW1lb3p6ZXNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk5NDczMjcsImV4cCI6MjA4NTUyMzMyN30.lylkUmJ72SnE4dIZ39SfU_fY-1hLIjWJ6Xe17b_Rhj8"
+
+itapadmin@itap.com
+itapAdmin123!
