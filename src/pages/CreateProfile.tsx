@@ -19,6 +19,7 @@ export default function CreateProfile() {
         contact_number: '',
         relationship_status: '',
         email: '',
+        theme_id: 'lavender',
         social_links: [],
     };
 
@@ -52,6 +53,7 @@ export default function CreateProfile() {
                     contact_number: formData.contact_number || null,
                     relationship_status: formData.relationship_status || null,
                     email: formData.email || null,
+                    theme_id: formData.theme_id || 'lavender',
                     social_links: formData.social_links.filter(
                         link => link.platform.trim() && link.url.trim()
                     ),

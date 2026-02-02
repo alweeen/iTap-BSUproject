@@ -25,7 +25,6 @@
 @layer utilities {
   .glass {
     background-color: var(--color-card-bg);
-    opacity: var(--color-card-bg-opacity);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }

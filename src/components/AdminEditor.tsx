@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase';
 import { ProfileFormData, SocialLink } from '../lib/types';
 import { Plus, Trash2, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
+import ThemeSelector from './ThemeSelector';
 
 interface AdminEditorProps {
     initialData: ProfileFormData;
@@ -75,6 +76,7 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
                         relationship_status: formData.relationship_status || null,
                         email: formData.email || null,
                         social_links: validSocialLinks,
+                        theme_id: formData.theme_id || 'lavender',
                         updated_at: new Date().toISOString(),
                     })
                     .eq('id', profileId);
@@ -216,6 +218,17 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
                         />
                     </div>
                 </div>
+            </div>
+
+            {/* Theme Selection */}
+            <div className="space-y-4">
+                <h3 className="text-lg font-playful font-semibold text-charcoal">
+                    Profile Theme
+                </h3>
+                <ThemeSelector
+                    selectedThemeId={formData.theme_id}
+                    onSelect={(themeId) => handleInputChange('theme_id', themeId)}
+                />
             </div>
 
             {/* Social Links */}

@@ -7,11 +7,25 @@ export default {
     theme: {
         extend: {
             colors: {
-                lavender: '#E6E6FA',
-                mint: '#98FF98',
-                sage: '#9DC183',
-                cream: '#FFFDD0',
+                mint: {
+                    light: '#E0F7FA', // Ocean Breeze Light
+                    DEFAULT: '#98FF98', // Lavender Dream Primary
+                    dark: '#00695C', // Ocean Breeze Accent
+                },
+                sage: {
+                    light: '#F1F8E9', // Forest Calm Light
+                    DEFAULT: '#9DC183', // Lavender Dream Secondary
+                    dark: '#33691E', // Forest Calm Accent
+                },
                 charcoal: '#36454F',
+                // Dynamic Theme Colors
+                primary: 'var(--color-primary)',
+                secondary: 'var(--color-secondary)',
+                accent: 'var(--color-accent)',
+                background: 'var(--color-background)',
+                card: 'var(--color-card-bg)',
+                text: 'var(--color-text)',
+                'text-secondary': 'var(--color-text-secondary)',
             },
             fontFamily: {
                 playful: ['Outfit', 'Quicksand', 'sans-serif'],

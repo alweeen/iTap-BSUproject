@@ -59,6 +59,7 @@ export default function EditProfile() {
                 contact_number: profile.contact_number || '',
                 relationship_status: profile.relationship_status || '',
                 email: profile.email || '',
+                theme_id: profile.theme_id || 'lavender',
                 social_links: profile.social_links || [],
             };
         }
@@ -71,6 +72,7 @@ export default function EditProfile() {
             contact_number: '',
             relationship_status: '',
             email: '',
+            theme_id: 'lavender',
             social_links: [],
         };
     };

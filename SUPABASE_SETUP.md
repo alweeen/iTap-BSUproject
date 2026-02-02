@@ -16,6 +16,7 @@ create table profiles (
   relationship_status text,
   email text,
   social_links jsonb default '[]'::jsonb,
+  theme_id text default 'lavender',
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
@@ -116,4 +117,7 @@ create policy "Authenticated users can update any profile"
 create policy "Authenticated users can delete any profile"
   on profiles for delete
   using (auth.role() = 'authenticated');
+
+-- Add theme_id column if it doesn't exist
+alter table profiles add column if not exists theme_id text default 'lavender';
 ```

@@ -11,8 +11,9 @@ export interface Profile {
     address?: string;
     contact_number?: string;
     relationship_status?: string;
-    email?: string;
+    email: string | null;
     social_links: SocialLink[];
+    theme_id?: string;
     created_at?: string;
     updated_at?: string;
 }
@@ -26,4 +27,5 @@ export interface ProfileFormData {
     relationship_status: string;
     email: string;
     social_links: SocialLink[];
+    theme_id?: string;
 }
