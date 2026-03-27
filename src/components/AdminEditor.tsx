@@ -17,6 +17,27 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
     const [saving, setSaving] = useState(false);
 
     const handleInputChange = (field: keyof ProfileFormData, value: string) => {
+        if (field === 'contact_number') {
+            // Ensure it starts with +63
+            let cleaned = value;
+            if (!cleaned.startsWith('+63')) {
+                cleaned = '+63' + cleaned.replace(/^\+?6?3?/, '');
+            }
+            
+            // Extract the part after +63 and keep only digits
+            const prefix = '+63';
+            let suffix = value.slice(prefix.length).replace(/\D/g, '');
+            
+            // First digit after +63 must be 9
+            if (suffix.length > 0 && suffix[0] !== '9') {
+                suffix = ''; // Or just clear it if it doesn't start with 9
+            }
+            
+            suffix = suffix.slice(0, 10);
+            
+            setFormData(prev => ({ ...prev, [field]: prefix + suffix }));
+            return;
+        }
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
@@ -48,9 +69,20 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
         setSaving(true);
 
         try {
-            // Validate email if provided
-            if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-                toast.error('Please enter a valid email address');
+            // Treat '+63' or empty as null
+            const contactNumber = formData.contact_number === '+63' ? '' : formData.contact_number;
+
+            // Validate contact number (+63 followed by exactly 10 digits, starting with 9)
+            const contactRegex = /^\+639\d{9}$/;
+            if (contactNumber && !contactRegex.test(contactNumber)) {
+                toast.error('Contact number must start with +63 and then 9, followed by 9 more digits');
+                setSaving(false);
+                return;
+            }
+
+            // Validate email if provided (must have @ and .com)
+            if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]*\.?com$/.test(formData.email.toLowerCase())) {
+                toast.error('Please enter a valid email address ending with .com');
                 setSaving(false);
                 return;
             }
@@ -62,7 +94,7 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
 
             if (isCreating) {
                 // For create mode, just pass the data to onSave
-                await onSave({ ...formData, social_links: validSocialLinks });
+                await onSave({ ...formData, contact_number: contactNumber, social_links: validSocialLinks });
             } else {
                 // For update mode, update the database
                 const { error } = await (supabase
@@ -72,7 +104,7 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
                         full_name: formData.full_name,
                         age: formData.age ? parseInt(formData.age) : null,
                         address: formData.address || null,
-                        contact_number: formData.contact_number || null,
+                        contact_number: contactNumber || null,
                         relationship_status: formData.relationship_status || null,
                         email: formData.email || null,
                         social_links: validSocialLinks,
@@ -87,7 +119,6 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
                     return;
                 }
 
-                toast.success('Profile updated successfully!');
                 onSave();
             }
         } catch (err) {
@@ -155,16 +186,21 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
 
                     <div>
                         <label className="block text-sm font-medium text-charcoal mb-2">
-                            Relationship Status
+                            Marital Status
                         </label>
-                        <input
-                            type="text"
+                        <select
                             value={formData.relationship_status}
                             onChange={(e) => handleInputChange('relationship_status', e.target.value)}
                             className="w-full px-4 py-3 rounded-xl border-2 border-sage/20 
                        focus:border-sage focus:outline-none transition-colors bg-white/50"
-                            placeholder="Single, Married, etc."
-                        />
+                        >
+                            <option value="">Select Status</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Widowed">Widowed</option>
+                            <option value="Separated">Separated</option>
+                            <option value="Divorced">Divorced</option>
+                        </select>
                     </div>
                 </div>
 
@@ -210,11 +246,14 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
                         </label>
                         <input
                             type="tel"
-                            value={formData.contact_number}
+                            value={formData.contact_number || '+63'}
                             onChange={(e) => handleInputChange('contact_number', e.target.value)}
+                            onFocus={(e) => {
+                                if (!e.target.value) handleInputChange('contact_number', '+63');
+                            }}
                             className="w-full px-4 py-3 rounded-xl border-2 border-sage/20 
                        focus:border-sage focus:outline-none transition-colors bg-white/50"
-                            placeholder="+1 234 567 8900"
+                            placeholder="+639123456789"
                         />
                     </div>
                 </div>
