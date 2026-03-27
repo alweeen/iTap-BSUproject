@@ -1,6 +1,8 @@
 import { Profile } from '../lib/types';
-import { Edit, Trash2, ExternalLink } from 'lucide-react';
+import { Edit, Trash2, ExternalLink, Copy, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface ProfileListCardProps {
     profile: Profile;
@@ -9,6 +11,20 @@ interface ProfileListCardProps {
 
 export default function ProfileListCard({ profile, onDelete }: ProfileListCardProps) {
     const navigate = useNavigate();
+
+    const [copied, setCopied] = useState(false);
+    const profileUrl = `${window.location.origin}/profile/${profile.username}`;
+
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(profileUrl);
+            setCopied(true);
+            toast.success('Profile link copied!');
+            setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+            toast.error('Failed to copy link');
+        }
+    };
 
     const handleDelete = () => {
         if (window.confirm(`Are you sure you want to delete the profile for "${profile.full_name}"?`)) {
@@ -27,14 +43,16 @@ export default function ProfileListCard({ profile, onDelete }: ProfileListCardPr
                         @{profile.username}
                     </p>
                 </div>
-                <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: 'var(--color-primary)' }}
+                <a
+                    href={`/profile/${profile.username}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl transition-all duration-200 hover:scale-110 active:scale-95"
+                    style={{ color: 'var(--color-text)' }}
+                    title="View Profile"
                 >
-                    <span className="text-lg font-bold" style={{ color: 'var(--color-text)' }}>
-                        {profile.full_name.charAt(0).toUpperCase()}
-                    </span>
-                </div>
+                    <ExternalLink className="w-5 h-5" />
+                </a>
             </div>
 
             {profile.email && (
@@ -50,17 +68,16 @@ export default function ProfileListCard({ profile, onDelete }: ProfileListCardPr
             )}
 
             <div className="flex gap-2">
-                <a
-                    href={`/profile/${profile.username}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                <button
+                    onClick={handleCopy}
                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-xl 
                    transition-all duration-200 hover:scale-105 active:scale-95"
-                    style={{ backgroundColor: 'var(--color-accent)', color: 'white' }}
+                    style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-text)' }}
+                    title="Copy Profile Link"
                 >
-                    <ExternalLink className="w-4 h-4" />
-                    View
-                </a>
+                    {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                    {copied ? 'Copied' : 'Copy'}
+                </button>
                 <button
                     onClick={() => navigate(`/admin/users/${profile.id}/edit`)}
                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-xl 

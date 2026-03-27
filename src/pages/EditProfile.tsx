@@ -4,8 +4,10 @@ import { supabase } from '../lib/supabase';
 import { Profile, ProfileFormData } from '../lib/types';
 import ProfileCard from '../components/ProfileCard';
 import AdminEditor from '../components/AdminEditor';
+import CopyLinkButton from '../components/CopyLinkButton';
 import { ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { QRCodeSVG } from 'qrcode.react';
 
 export default function EditProfile() {
     const navigate = useNavigate();
@@ -96,9 +98,11 @@ export default function EditProfile() {
         return null;
     }
 
+    const profileUrl = `${window.location.origin}/profile/${profile.username}`;
+
     return (
         <div className="min-h-screen py-12 px-4">
-            <div className="max-w-3xl mx-auto space-y-6">
+            <div className="max-w-6xl mx-auto space-y-6">
                 {/* Header */}
                 <ProfileCard>
                     <div className="flex items-center gap-4">
@@ -120,14 +124,51 @@ export default function EditProfile() {
                     </div>
                 </ProfileCard>
 
-                {/* Profile Form */}
-                <ProfileCard>
-                    <AdminEditor
-                        initialData={getFormData()}
-                        profileId={profile.id}
-                        onSave={handleSave}
-                    />
-                </ProfileCard>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2 space-y-6">
+                        {/* Copy Link Section */}
+                        <ProfileCard>
+                            <div className="space-y-4">
+                                <h2 className="text-lg font-playful font-semibold text-charcoal" style={{ color: 'var(--color-text)' }}>
+                                    Profile Link
+                                </h2>
+                                <CopyLinkButton username={profile.username} />
+                            </div>
+                        </ProfileCard>
+
+                        {/* Profile Form */}
+                        <ProfileCard>
+                            <AdminEditor
+                                initialData={getFormData()}
+                                profileId={profile.id}
+                                onSave={handleSave}
+                            />
+                        </ProfileCard>
+                    </div>
+
+                    <div className="lg:col-span-1">
+                        <div className="sticky top-6">
+                            <ProfileCard>
+                                <div className="space-y-4 text-center">
+                                    <h2 className="text-lg font-playful font-semibold text-charcoal" style={{ color: 'var(--color-text)' }}>
+                                        Profile QR Code
+                                    </h2>
+                                    <div className="bg-white p-4 rounded-2xl shadow-inner inline-block mx-auto">
+                                        <QRCodeSVG
+                                            value={profileUrl}
+                                            size={200}
+                                            level="H"
+                                            includeMargin={true}
+                                        />
+                                    </div>
+                                    <p className="text-sm text-charcoal/60 px-4">
+                                        Scan this code to instantly open the digital business card profile.
+                                    </p>
+                                </div>
+                            </ProfileCard>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
