@@ -23,18 +23,18 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
             if (!cleaned.startsWith('+63')) {
                 cleaned = '+63' + cleaned.replace(/^\+?6?3?/, '');
             }
-            
+
             // Extract the part after +63 and keep only digits
             const prefix = '+63';
             let suffix = value.slice(prefix.length).replace(/\D/g, '');
-            
+
             // First digit after +63 must be 9
             if (suffix.length > 0 && suffix[0] !== '9') {
                 suffix = ''; // Or just clear it if it doesn't start with 9
             }
-            
+
             suffix = suffix.slice(0, 10);
-            
+
             setFormData(prev => ({ ...prev, [field]: prefix + suffix }));
             return;
         }
@@ -222,20 +222,20 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
                             <option value="Other">Other</option>
                         </select>
                     </div>
-                </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-charcoal mb-2">
-                        Disabilities
-                    </label>
-                    <input
-                        type="text"
-                        value={formData.disabilities}
-                        onChange={(e) => handleInputChange('disabilities', e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border-2 border-sage/20 
-                     focus:border-sage focus:outline-none transition-colors bg-white/50"
-                        placeholder="e.g., None, Nearsighted, etc."
-                    />
+                    <div>
+                        <label className="block text-sm font-medium text-charcoal mb-2">
+                            Disabilities
+                        </label>
+                        <input
+                            type="text"
+                            value={formData.disabilities}
+                            onChange={(e) => handleInputChange('disabilities', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border-2 border-sage/20 
+                                     focus:border-sage focus:outline-none transition-colors bg-white/50"
+                            placeholder="e.g., Diabetic, Nearsighted, etc."
+                        />
+                    </div>
                 </div>
 
                 <div>
