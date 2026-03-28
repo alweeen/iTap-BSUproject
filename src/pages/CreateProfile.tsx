@@ -16,6 +16,8 @@ export default function CreateProfile() {
         address: '',
         contact_number: '',
         relationship_status: '',
+        sex: '',
+        disabilities: '',
         email: '',
         theme_id: 'lavender',
         social_links: [],
@@ -47,6 +49,8 @@ export default function CreateProfile() {
                     address: formData.address || null,
                     contact_number: formData.contact_number || null,
                     relationship_status: formData.relationship_status || null,
+                    sex: formData.sex || null,
+                    disabilities: formData.disabilities || null,
                     email: formData.email || null,
                     theme_id: formData.theme_id || 'lavender',
                     social_links: formData.social_links.filter(

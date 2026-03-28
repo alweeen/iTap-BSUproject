@@ -106,6 +106,8 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
                         address: formData.address || null,
                         contact_number: contactNumber || null,
                         relationship_status: formData.relationship_status || null,
+                        sex: formData.sex || null,
+                        disabilities: formData.disabilities || null,
                         email: formData.email || null,
                         social_links: validSocialLinks,
                         theme_id: formData.theme_id || 'lavender',
@@ -202,6 +204,38 @@ export default function AdminEditor({ initialData, profileId, onSave, isCreating
                             <option value="Divorced">Divorced</option>
                         </select>
                     </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-charcoal mb-2">
+                            Sex
+                        </label>
+                        <select
+                            value={formData.sex}
+                            onChange={(e) => handleInputChange('sex', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border-2 border-sage/20 
+                       focus:border-sage focus:outline-none transition-colors bg-white/50"
+                        >
+                            <option value="">Select Sex</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-charcoal mb-2">
+                        Disabilities
+                    </label>
+                    <input
+                        type="text"
+                        value={formData.disabilities}
+                        onChange={(e) => handleInputChange('disabilities', e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border-2 border-sage/20 
+                     focus:border-sage focus:outline-none transition-colors bg-white/50"
+                        placeholder="e.g., None, Nearsighted, etc."
+                    />
                 </div>
 
                 <div>

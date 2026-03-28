@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabase';
 import { Profile } from '../lib/types';
 import ProfileCard from '../components/ProfileCard';
 import SocialLinks from '../components/SocialLinks';
-import { User, MapPin, Phone, Mail, Heart, Cake } from 'lucide-react';
+import { User, MapPin, Phone, Mail, Heart, Cake, User2, Accessibility } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
 export default function ProfilePage() {
@@ -131,6 +131,18 @@ export default function ProfilePage() {
                             <div className="flex items-center gap-3">
                                 <Heart className="w-5 h-5 text-accent" />
                                 <span className="text-text-secondary">{profile.relationship_status}</span>
+                            </div>
+                        )}
+                        {profile.sex && (
+                            <div className="flex items-center gap-3">
+                                <User2 className="w-5 h-5 text-accent" />
+                                <span className="text-text-secondary">{profile.sex}</span>
+                            </div>
+                        )}
+                        {profile.disabilities && (
+                            <div className="flex items-center gap-3">
+                                <Accessibility className="w-5 h-5 text-accent" />
+                                <span className="text-text-secondary">{profile.disabilities}</span>
                             </div>
                         )}
                     </div>
